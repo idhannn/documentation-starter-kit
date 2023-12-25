@@ -1,0 +1,358 @@
+# Tailwind Components
+
+### DropMenu
+```js filename="DropMenu.tsx" {3} copy
+import Link from "next/link";
+import React from "react";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { RabatesInformations } from "./textInformations";
+
+interface MenuProps {
+  url: string;
+  name: string;
+}
+
+const DropMenu = ({
+  Title,
+  Menus,
+  onPress,
+}: {
+  Title: string;
+  Menus: Array<MenuProps>;
+  onPress: () => void;
+}) => {
+  return (
+    <div className="group relative cursor-pointer">
+      <div className="flex items-center justify-between">
+        <a className="menu-hover text-base font-medium">
+          <span className="flex text-white items-center mt-[8px] cursor-pointer">
+            {Title}
+            <p className="text-xl">
+              <IoMdArrowDropdown />
+            </p>
+          </span>
+        </a>
+      </div>
+
+      <div className="invisible absolute z-50 flex right-5 w-[300px] flex-col bg-white py-1 px-4 text-gray-800 shadow-xl group-hover:visible">
+        {Menus.map((item, idx) => (
+          <Link href={item.url} key={idx}>
+            <div
+              onClick={onPress}
+              className="my-2 text-sm block border-b border-gray-100 py-1 font-semibold text-gray-500 hover:text-black md:mx-2"
+            >
+              {item.name}
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default DropMenu;
+```
+### Loading
+
+```js filename="Loading.tsx" {3}
+const Loading = () => {
+  return (
+    <div className="w-7 h-7 mx-auto rounded-full animate-spin border-8 border-dashed border-white border-t-transparent"></div>
+  );
+};
+
+export default Loading;
+
+export const LoadingPage = () => {
+  return (
+    <div className="fixed z-40 bg-black/50 left-0 top-0 w-full h-screen flex justify-center items-center">
+      <div className="w-12 h-12 rounded-full animate-spin border-8 border-dashed border-white border-t-transparent"></div>
+    </div>
+  );
+};
+```
+### Modal
+
+```js filename="Modal.tsx" {3}
+"use client";
+import { textContent } from "@/components/textContent";
+import Link from "next/link";
+import { FaFacebookMessenger, FaTelegram } from "react-icons/fa";
+import { IoLogoWhatsapp, IoMdChatboxes, IoMdClose } from "react-icons/io";
+import { useState } from "react";
+
+const ContatcsPage = () => {
+  const [showModal, setShowModal] = useState(false);
+  return (
+    <>
+      <div
+        onClick={() => setShowModal(true)}
+        className="p-3 bg-red text-white text-3xl z-40 cursor-pointer hover:opacity-70 fixed bottom-3 right-3"
+      >
+        <IoMdChatboxes />
+      </div>
+      {showModal && (
+        <>
+          <main className="w-[95%] lg:w-[600px] bg-white rounded-md z-50 shadow-3 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+            <div
+              onClick={() => setShowModal(false)}
+              className="absolute top-2 right-2 p-2 rounded-full cursor-pointer lg:text-xl bg-slate-200 hover:bg-slate-300"
+            >
+              <IoMdClose />
+            </div>
+            <h2 className="text-lg lg:text-2xl font-bold uppercase py-5 border-b border-slate-400 text-center">
+              {textContent.Logo} Live Support
+            </h2>
+            <p className="text-sm opacity-80 p-3 text-center">
+              Welcome to Logo Live Support Please select how you
+              would like to be contacted, You can speak English, Indonesian or
+              Malaysian
+            </p>
+            <div className="grid grid-cols-3 px-4 lg:px-8 my-4 lg:py-5">
+              {contacts.map((contc, idx) => (
+                <Link href={contc.link}>
+                  <div
+                    key={idx}
+                    className="text-center duration-200 hover:scale-110 hover:opacity-70 justify-center items-center flex flex-col gap-2"
+                  >
+                    <div
+                      className={`p-2 lg:p-4 rounded-full text-2xl lg:text-4xl text-white ${contc.bg}`}
+                    >
+                      {contc.icon}
+                    </div>
+                    <h1>{contc.title}</h1>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </main>
+          <div
+            onClick={() => setShowModal(false)}
+            className="bg-[#111]/50 fixed top-0 left-0 w-full h-full z-40"
+          ></div>
+        </>
+      )}
+    </>
+  );
+};
+
+export default ContatcsPage;
+
+const contacts = [
+  {
+    title: "Whatsapp",
+    icon: <IoLogoWhatsapp />,
+    bg: "bg-green",
+    link: "https://wa.me/+6285879718359",
+  },
+  {
+    title: "Telegram",
+    icon: <FaTelegram />,
+    bg: "bg-blue-500",
+    link: "https://t.me/reggals95 ",
+  },
+  {
+    title: "Messenger",
+    icon: <FaFacebookMessenger />,
+    bg: "bg-sky-500",
+    link: "https://faceboook.com",
+  },
+];
+```
+
+### Navbar
+```js filename="Navbar.tsx" {3} copy
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { BrokersName, textContent } from "./textContent";
+import { IoIosMenu, IoMdClose } from "react-icons/io";
+import DropMenu from "./DropMenu";
+
+const Navbar = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <header
+      className={`w-full flex flex-col z-40 fixed top-0 left-0  bg-[#222] px-3 lg:px-10 pt-3 pb-3 lg:pb-0`}
+    >
+      <div className="hidden lg:flex justify-between items-center border-slate-100 border-b border-opacity-30 mb-3 pb-5">
+        <p className="text-white">Handev Is Back</p>
+        <div className="flex items-center gap-3">
+          <Link href={"/auth/login"}>
+            <button className="text-white bg-red px-4 py-2 rounded-md hover:bg-red-600">
+              Login
+            </button>
+          </Link>
+          <Link href={"/auth/signup"}>
+            <button className="text-white bg-green px-4 py-2 rounded-md hover:bg-green-600 ">
+              Sign Up
+            </button>
+          </Link>
+        </div>
+      </div>
+      <div className="flex justify-between items-center">
+        <a href="/" className="text-3xl lg:text-4xl font-bold text-red-500">
+          Handev
+        </a>
+        <ul className="hidden lg:flex gap-2">
+          <div
+            className="px-4 py-2 rounded-md hover:bg-red cursor-pointer"
+            onClick={() => setOpen(false)}
+          >
+            <ListItem NavLink="/">Home</ListItem>
+          </div>
+          <div
+            className="px-4 py-2 rounded-md hover:bg-red cursor-pointer"
+            onClick={() => setOpen(false)}
+          >
+            <ListItem NavLink="/about">ABOUT US</ListItem>
+          </div>
+          <div className="px-2 py-2 rounded-md hover:bg-red cursor-pointer">
+            <DropMenu
+              onPress={() => setOpen(false)}
+              Title="PARTNERS BROKER"
+              Menus={BrokersName}
+            />
+          </div>
+          <div className="px-2 py-2 rounded-md hover:bg-red cursor-pointer">
+            <DropMenu
+              onPress={() => setOpen(false)}
+              Title="RABATES"
+              Menus={[
+                {
+                  url: "/rabates/what-is-forex-rabates",
+                  name: "WHAT'S FOREX RABATES?",
+                },
+                {
+                  url: "/rabates/how-to-get-forex-rebates",
+                  name: "HOW TO GET RABATES?",
+                },
+              ]}
+            />
+          </div>
+          <div
+            className="px-4 py-2 rounded-md hover:bg-red cursor-pointer"
+            onClick={() => setOpen(false)}
+          >
+            <ListItem NavLink="/promotion">PROMOTION</ListItem>
+          </div>
+          <div
+            className="px-4 py-2 rounded-md hover:bg-red cursor-pointer"
+            onClick={() => setOpen(false)}
+          >
+            <ListItem NavLink="/affiliate">AFFILIATE</ListItem>
+          </div>
+        </ul>
+        <ul
+          className={
+            open
+              ? "block lg:hidden gap-7 max-lg:absolute top-0 right-0 duration-300 z-40 max-lg:h-screen max-lg:w-[80%] max-sm:p-5 max-lg:p-10 max-lg:bg-[#222]"
+              : "block relative lg:hidden gap-7 max-lg:absolute top-0 right-[-100%] duration-300 z-40 max-lg:h-screen max-lg:w-[80%] max-sm:p-5 max-lg:p-10 max-lg:bg-[#333]"
+          }
+        >
+          <div
+            className="px-4 py-2 hover:bg-red rounded-md cursor-pointer mt-8"
+            onClick={() => setOpen(false)}
+          >
+            <ListItem NavLink="/">Home</ListItem>
+          </div>
+          <div
+            className="px-4 py-2 hover:bg-red rounded-md cursor-pointer"
+            onClick={() => setOpen(false)}
+          >
+            <ListItem NavLink="/about">ABOUT US</ListItem>
+          </div>
+          <div className="px-2 py-2 rounded-md hover:bg-red cursor-pointer">
+            <DropMenu
+              onPress={() => setOpen(false)}
+              Title="PARTNERS BROKER"
+              Menus={BrokersName}
+            />
+          </div>
+          <div className="px-4 py-2 hover:bg-red rounded-md cursor-pointer">
+            <DropMenu
+              onPress={() => setOpen(false)}
+              Title="RABATES"
+              Menus={[
+                {
+                  url: "/rabates/what-is-forex-rabates",
+                  name: "WHAT'S FOREX RABATES?",
+                },
+                {
+                  url: "/rabates/how-to-get-forex-rebates",
+                  name: "HOW TO GET RABATES?",
+                },
+              ]}
+            />
+          </div>
+          <div
+            className="px-4 py-2 hover:bg-red rounded-md cursor-pointer"
+            onClick={() => setOpen(false)}
+          >
+            <ListItem NavLink="/promotion">PROMOTION</ListItem>
+          </div>
+          <div
+            className="px-4 py-2 hover:bg-red rounded-md cursor-pointer"
+            onClick={() => setOpen(false)}
+          >
+            <ListItem NavLink="/affiliate">AFFILIATE</ListItem>
+          </div>
+          <div className="flex items-center gap-3 mt-6">
+            <Link href={"/auth/login"}>
+              <button className="text-white bg-red px-4 py-2 rounded-md hover:bg-red-600">
+                Login
+              </button>
+            </Link>
+            <Link href={"/auth/signup"}>
+              <button className="text-white bg-green px-4 py-2 rounded-md hover:bg-green-600 ">
+                Sign Up
+              </button>
+            </Link>
+          </div>
+          <button
+            onClick={() => setOpen(false)}
+            className="bg-[#333] absolute top-2 right-2 text-white/70 hover:text-white text-3xl p-2 rounded-lg"
+          >
+            <IoMdClose />
+          </button>
+        </ul>
+        {open && (
+          <div
+            onClick={() => setOpen(false)}
+            className="w-full h-screen lg:hidden bg-black/50 fixed top-0 left-0 z-30"
+          ></div>
+        )}
+        <button
+          onClick={() => setOpen(true)}
+          className="bg-[#333] lg:hidden text-white/70 hover:text-white text-3xl p-2 rounded-lg"
+        >
+          <IoIosMenu />
+        </button>
+      </div>
+    </header>
+  );
+};
+
+export default Navbar;
+
+const ListItem = ({
+  children,
+  NavLink,
+}: {
+  children: React.ReactNode,
+  NavLink: string,
+}) => {
+  return (
+    <>
+      <li>
+        <Link href={NavLink}>
+          <div className="flex py-2 text-base font-medium text-slate-200 uppercase dark:hover:text-white lg:inline-flex">
+            {children}
+          </div>
+        </Link>
+      </li>
+    </>
+  );
+};
+```
