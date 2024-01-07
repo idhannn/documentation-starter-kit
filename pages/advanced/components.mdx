@@ -436,196 +436,83 @@ const menuData = [
 ### Navbar
 ```js filename="Navbar.tsx" {3} copy
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { BrokersName, textContent } from "./textContent";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { IoIosMenu, IoMdClose } from "react-icons/io";
-import DropMenu from "./DropMenu";
+import { textContent } from "./textContent";
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
 
-  return (
-    <header
-      className={`w-full flex flex-col z-40 fixed top-0 left-0  bg-[#222] px-3 lg:px-10 pt-3 pb-3 lg:pb-0`}
-    >
-      <div className="hidden lg:flex justify-between items-center border-slate-100 border-b border-opacity-30 mb-3 pb-5">
-        <p className="text-white">Handev Is Back</p>
-        <div className="flex items-center gap-3">
-          <Link href={"/auth/login"}>
-            <button className="text-white bg-red px-4 py-2 rounded-md hover:bg-red-600">
-              Login
-            </button>
-          </Link>
-          <Link href={"/auth/signup"}>
-            <button className="text-white bg-green px-4 py-2 rounded-md hover:bg-green-600 ">
-              Sign Up
-            </button>
-          </Link>
-        </div>
-      </div>
-      <div className="flex justify-between items-center">
-        <a href="/" className="text-3xl lg:text-4xl font-bold text-red-500">
-          Handev
-        </a>
-        <ul className="hidden lg:flex gap-2">
-          <div
-            className="px-4 py-2 rounded-md hover:bg-red cursor-pointer"
-            onClick={() => setOpen(false)}
-          >
-            <ListItem NavLink="/">Home</ListItem>
-          </div>
-          <div
-            className="px-4 py-2 rounded-md hover:bg-red cursor-pointer"
-            onClick={() => setOpen(false)}
-          >
-            <ListItem NavLink="/about">ABOUT US</ListItem>
-          </div>
-          <div className="px-2 py-2 rounded-md hover:bg-red cursor-pointer">
-            <DropMenu
-              onPress={() => setOpen(false)}
-              Title="PARTNERS BROKER"
-              Menus={BrokersName}
-            />
-          </div>
-          <div className="px-2 py-2 rounded-md hover:bg-red cursor-pointer">
-            <DropMenu
-              onPress={() => setOpen(false)}
-              Title="RABATES"
-              Menus={[
-                {
-                  url: "/rabates/what-is-forex-rabates",
-                  name: "WHAT'S FOREX RABATES?",
-                },
-                {
-                  url: "/rabates/how-to-get-forex-rebates",
-                  name: "HOW TO GET RABATES?",
-                },
-              ]}
-            />
-          </div>
-          <div
-            className="px-4 py-2 rounded-md hover:bg-red cursor-pointer"
-            onClick={() => setOpen(false)}
-          >
-            <ListItem NavLink="/promotion">PROMOTION</ListItem>
-          </div>
-          <div
-            className="px-4 py-2 rounded-md hover:bg-red cursor-pointer"
-            onClick={() => setOpen(false)}
-          >
-            <ListItem NavLink="/affiliate">AFFILIATE</ListItem>
-          </div>
-        </ul>
-        <ul
-          className={
-            open
-              ? "block lg:hidden gap-7 max-lg:absolute top-0 right-0 duration-300 z-40 max-lg:h-screen max-lg:w-[80%] max-sm:p-5 max-lg:p-10 max-lg:bg-[#222]"
-              : "block relative lg:hidden gap-7 max-lg:absolute top-0 right-[-100%] duration-300 z-40 max-lg:h-screen max-lg:w-[80%] max-sm:p-5 max-lg:p-10 max-lg:bg-[#333]"
-          }
+    return (
+        <header
+            className={`w-full flex flex-col fixed top-0 bg-gradient-to-b from-black/30 to-black/0 px-3 lg:px-10 py-5 text-white`}
         >
-          <div
-            className="px-4 py-2 hover:bg-red rounded-md cursor-pointer mt-8"
-            onClick={() => setOpen(false)}
-          >
-            <ListItem NavLink="/">Home</ListItem>
-          </div>
-          <div
-            className="px-4 py-2 hover:bg-red rounded-md cursor-pointer"
-            onClick={() => setOpen(false)}
-          >
-            <ListItem NavLink="/about">ABOUT US</ListItem>
-          </div>
-          <div className="px-2 py-2 rounded-md hover:bg-red cursor-pointer">
-            <DropMenu
-              onPress={() => setOpen(false)}
-              Title="PARTNERS BROKER"
-              Menus={BrokersName}
-            />
-          </div>
-          <div className="px-4 py-2 hover:bg-red rounded-md cursor-pointer">
-            <DropMenu
-              onPress={() => setOpen(false)}
-              Title="RABATES"
-              Menus={[
-                {
-                  url: "/rabates/what-is-forex-rabates",
-                  name: "WHAT'S FOREX RABATES?",
-                },
-                {
-                  url: "/rabates/how-to-get-forex-rebates",
-                  name: "HOW TO GET RABATES?",
-                },
-              ]}
-            />
-          </div>
-          <div
-            className="px-4 py-2 hover:bg-red rounded-md cursor-pointer"
-            onClick={() => setOpen(false)}
-          >
-            <ListItem NavLink="/promotion">PROMOTION</ListItem>
-          </div>
-          <div
-            className="px-4 py-2 hover:bg-red rounded-md cursor-pointer"
-            onClick={() => setOpen(false)}
-          >
-            <ListItem NavLink="/affiliate">AFFILIATE</ListItem>
-          </div>
-          <div className="flex items-center gap-3 mt-6">
-            <Link href={"/auth/login"}>
-              <button className="text-white bg-red px-4 py-2 rounded-md hover:bg-red-600">
-                Login
-              </button>
-            </Link>
-            <Link href={"/auth/signup"}>
-              <button className="text-white bg-green px-4 py-2 rounded-md hover:bg-green-600 ">
-                Sign Up
-              </button>
-            </Link>
-          </div>
-          <button
-            onClick={() => setOpen(false)}
-            className="bg-[#333] absolute top-2 right-2 text-white/70 hover:text-white text-3xl p-2 rounded-lg"
-          >
-            <IoMdClose />
-          </button>
-        </ul>
-        {open && (
-          <div
-            onClick={() => setOpen(false)}
-            className="w-full h-screen lg:hidden bg-black/50 fixed top-0 left-0 z-30"
-          ></div>
-        )}
-        <button
-          onClick={() => setOpen(true)}
-          className="bg-[#333] lg:hidden text-white/70 hover:text-white text-3xl p-2 rounded-lg"
-        >
-          <IoIosMenu />
-        </button>
-      </div>
-    </header>
-  );
+            <div className="flex justify-between items-center">
+                <a href="/" className="text-3xl lg:text-4xl text-white font-bold">
+                    {textContent.logo}
+                </a>
+                <ul className="hidden lg:flex gap-10">
+                    {menus.map((menu) => (
+                        <li key={menu.name}>
+                            <Link
+                                to={menu.path}
+                                className="hover:text-sky-400"
+                            >
+                                {menu.name}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+                <button className="px-3 py-2 border border-white hover:bg-sky-400 hover:border-sky-400 font-bold rounded-md">
+                    Sign in
+                </button>
+                <ul
+                    className={
+                        open
+                            ? "block lg:hidden gap-7 max-lg:absolute top-0 right-0 duration-300 z-40 max-lg:h-screen max-lg:w-[80%] max-sm:p-5 max-lg:p-10 max-lg:bg-white"
+                            : "block relative lg:hidden gap-7 max-lg:absolute top-0 right-[-100%] duration-300 z-40 max-lg:h-screen max-lg:w-[80%] max-sm:p-5 max-lg:p-10 max-lg:bg-white"
+                    }
+                >
+                    <button
+                        onClick={() => setOpen(false)}
+                        className="bg-gray-100 absolute top-2 right-2 text-gray-800 hover:text-gray-900 text-3xl p-2 rounded-lg"
+                    >
+                        <IoMdClose />
+                    </button>
+                </ul>
+                {open && (
+                    <div
+                        onClick={() => setOpen(false)}
+                        className="w-full h-screen lg:hidden bg-black/50 fixed top-0 left-0 z-30"
+                    ></div>
+                )}
+                <button
+                    onClick={() => setOpen(true)}
+                    className="bg-gray-100 lg:hidden text-gray-800 hover:text-gray-900 text-3xl p-2 rounded-md"
+                >
+                    <IoIosMenu />
+                </button>
+            </div>
+        </header>
+    );
 };
 
 export default Navbar;
 
-const ListItem = ({
-  children,
-  NavLink,
-}: {
-  children: React.ReactNode,
-  NavLink: string,
-}) => {
-  return (
-    <>
-      <li>
-        <Link href={NavLink}>
-          <div className="flex py-2 text-base font-medium text-slate-200 uppercase dark:hover:text-white lg:inline-flex">
-            {children}
-          </div>
-        </Link>
-      </li>
-    </>
-  );
-};
+const menus = [
+    {
+        name: "Home",
+        path: "/",
+    },
+    {
+        name: "About",
+        path: "/about",
+    },
+    {
+        name: "Favorites",
+        path: '/favorites'
+    },
+]
+
 ```
